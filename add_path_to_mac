@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd $(dirname $0)
+SCRIPT=~/.bash_profile
+
+if ! egrep -q "PATH.*Coding" $SCRIPT; then
+  echo PATH-line not here, adding
+  echo "export PATH=\$PATH:$(pwd)/bin" >> $SCRIPT
+else
+  echo PATH-line is already added
+fi

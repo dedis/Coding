@@ -1,0 +1,13 @@
+#!/bin/bash
+B_NBR=$1
+
+if [ "$B_NBR" ]; then
+  BRANCH=$( git branch | nl | egrep "\s$B_NBR\s" | sed -e "s/.* //" )
+  if [ "$BRANCH" ]; then
+    git checkout $BRANCH
+  else
+    echo "Didn't find branch number $B_NBR"
+  fi
+else
+  git branch | nl
+fi
