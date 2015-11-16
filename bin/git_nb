@@ -1,0 +1,11 @@
+#!/bin/bash
+# If called without arguments, it prints a list of all branches with numbers
+# beside each branch
+# If called with an argument, it returns the name of that branch
+
+B_NBR=$1
+if [ "$B_NBR" ]; then
+  echo $( $0 | egrep "\s$B_NBR\s" | sed -e "s/.* //" )
+else
+  git branch | nl
+fi
