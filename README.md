@@ -13,6 +13,24 @@ When working with github, we rely on the http://ZenHub.io plugin to use the
 - Features - for new things
 - Refactoring - least important, things we want to rewrite
 
+### Branches
+
+All work has to be done in branches. Per default, branches go off from 
+```development```, as this is the working branch. For release-critical bugs 
+you can also branch from ```release```.
+
+The branch-name should be two or three words, concatenated using underscores.
+ If you work on a foreign branch, include the start of the foreign branch in 
+ your branch.
+ 
+Let's say user 1 made a branch ```add_platform_lxc``` and you want to 
+participate, you'll create a branch that goes off it with the name 
+```add_platform_lxc_macosxfix``` and do a pull-request to the first branch, 
+```add_platform_lxc```.
+ 
+As all these branches can be quite some typing with ```git checkout ....```, 
+there are two scripts in the ```bin```-directory: ```gic``` and ```gid```.
+
 ### Assignees
 
 An issue/pull-request with an assignee belongs to this person - he is 
@@ -69,3 +87,24 @@ except function- and variable-names that aren't English words.
 ## Line-width
 
 The standard line-width is 80 characters and this is a hard limit.
+
+## Scripts
+
+Two scripts are provided for more easy switching and cleaning up between 
+branches.
+
+### gic
+
+```gic``` is git-checkout. If you call it without any arguments, it will 
+output a list of all branches that are checked out, together with a number in
+ front. This lets you easily change between branches.
+
+New branches that have never been checked out will come in the second part of
+ the list and can be checked out the same way.
+
+### gid
+
+```gid``` will delete a local branch to make place for new branches. Called 
+without arguments, it will show a list of all branches available for 
+deletion, called with a number, it will try to delete that branch. This can 
+fail if the branch hasn't been pushed.

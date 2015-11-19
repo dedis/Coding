@@ -5,7 +5,8 @@
 
 B_NBR=$1
 if [ "$B_NBR" ]; then
-  echo $( $0 | egrep "\s$B_NBR\s" | sed -e "s/.* //" )
+  echo $( $0 | egrep "\s$B_NBR\s" | sed -e "s/.* //" | \
+  sed -e "s/remotes.origin.//" )
 else
-  git branch | nl
+  ( git branch; echo; git branch -a | grep remotes/origin ) | nl
 fi
