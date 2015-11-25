@@ -1,0 +1,15 @@
+#!/bin/bash
+
+B_NBR=$1
+DELETE=${2:--d}
+
+if [ "$B_NBR" ]; then
+  BRANCH=$( git_nb $B_NBR )
+  if [ "$BRANCH" ]; then
+    git branch $DELETE $BRANCH
+  else
+    echo "Didn't find branch number $B_NBR"
+  fi
+else
+  git_nb
+fi
