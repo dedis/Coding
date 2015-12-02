@@ -38,8 +38,10 @@ into a pull request (instead of opening a new pull-request related to that
 issue). With [hub](https://hub.github.com/) this can be easily achieved.
 For example
 ```
-hub pull-request -i 117 -b DeDiS:master -h Liamsi:correct_markdown
+hub pull-request -i 117 -b development -h correct_markdown [URL_TO_ISSUE_117]
 ```
+converts issue #117 into a pull request for marging branch `correct_markdown`
+into `development`.
 
 
 ### Assignees
