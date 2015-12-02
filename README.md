@@ -40,7 +40,7 @@ For example
 ```
 hub pull-request -i 117 -b development -h correct_markdown [URL_TO_ISSUE_117]
 ```
-converts issue #117 into a pull request for marging branch `correct_markdown`
+converts issue #117 into a pull request for merging branch `correct_markdown`
 into `development`.
 
 
