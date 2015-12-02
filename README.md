@@ -28,7 +28,7 @@ participate, you'll create a branch that goes off it with the name
 `add_platform_lxc_macosxfix` and do a pull-request to the first branch,
 `add_platform_lxc`.
 
-There are two scripts, [`gic`](### gid) and [`gid`](### gid), in the `bin`
+There are two scripts, [`gic`](#gid) and [`gid`](#gid), in the `bin`
 directory which make it a lot easier to handle a lot of long branch names
 and can save you a lot of typing.
 
