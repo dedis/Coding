@@ -25,12 +25,22 @@ your branch.
 
 Let's say user 1 made a branch `add_platform_lxc` and you want to
 participate, you'll create a branch that goes off it with the name
-`add_platform_lxc_macosxfix` and do a pull-request to the first branch,
+`add_platform_lxc_macosxfix` and do a pull request to the first branch,
 `add_platform_lxc`.
 
 There are two scripts, [`gic`](#gid) and [`gid`](#gid), in the `bin`
 directory which make it a lot easier to handle a lot of long branch names
 and can save you a lot of typing.
+
+### Pull Requests and Issues
+Ideally, attach your pull request to an open issue by converting the issue
+into a pull request (instead of opening a new pull-request related to that
+issue). With [hub](https://hub.github.com/) this can be easily achieved.
+For example
+```
+hub pull-request -i 117 -b DeDiS:master -h Liamsi:correct_markdown
+```
+
 
 ### Assignees
 
