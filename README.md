@@ -75,8 +75,15 @@ For push to github.com/dedis, all tests MUST pass. This can be enforced by
 
 ### Travis
 
-TODO: there will be a travis-testfile that checks to `gofmt` and
- `go test ./...`. This is also a requirement before a merge can be done.
+A travis-script checks the go-formatting and all tests. Before a merge is done,
+Travis must be OK.
+
+### Go-fmt and git pre-push
+
+If you have troubles using gofmt in your editor, please use the pre-push hook
+in this directory for git. If you alread installed the 'bin'-directory with
+`add_path_to_mac`, you can just call `add_hooks`. Now everytime before your
+changes get pushed, the gofmt renices all your files.
 
 ## Comments
 
