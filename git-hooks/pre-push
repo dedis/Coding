@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Pre-push script that amends formatting of go-code
+
+if [ "$( gofmt -l . )" ]; then
+	echo Updating the formatting of go
+	find . -name "*.go" | xargs gofmt -w
+	git commit -a --amend --no-edit
+fi
+
+exit 0

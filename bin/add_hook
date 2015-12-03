@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+GITROOT=$( git rev-parse --show-toplevel )
+
+if [ "$GITROOT" ]; then
+  cp $DIR/../git-hooks/* $GITROOT/.git/hooks
+  echo Copied $DIR/../git-hooks/* to $GITROOT/.git/hooks
+fi
