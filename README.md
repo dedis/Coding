@@ -142,5 +142,27 @@ numerical debug-level. The debug-levels represent:
   * 4 - information for verbose output in testing
   * 5 - not really used
 
+### Evolution of debug-levels
+
+While writing fresh code, the new functions will have lower debug-levels, as they
+will most probably influence a lot of what is being coded and where bugs reside.
+As the functions mature, the debug-levels can be increased, as most often they
+don't indicate anything interesting anymore.
+
+### Debugging with LLvl and Print
+
 If a given output is interesting for debugging regardless of the level, the
-`Lvl` can be changed to `LLvl` which will always print the information.
+`dbg.Lvl` can be changed to `dbg.LLvl` which will always print the information.
+
+This is useful if you are debugging something and want to follow a certain path
+that has only high debug-levels.
+
+For fast dumping of variables one can also use `dbg.Print` which is easy to find
+and remove once the debugging-session is done.
+
+### Format-functions in debug
+
+Every debug-function has also a -*f*-function: `Lvl1` and `Lvlf1`, `Lvl2` and 
+`Lvlf2`..., `Print` and `Printf`, `Fatal` and `Fatalf`, `Error` and `Errorf`.
+
+The format-functions work like `fmt.Printf`.
