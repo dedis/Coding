@@ -134,13 +134,13 @@ branch. This can fail if the branch hasn't been pushed.
 We're using the `cothority/lib/dbg`-library for debug-output which offers a 
 numerical debug-level. The debug-levels represent:
   
-  1 - important information to follow the correct working of a simulation
-  2 - additional information which doesn't spam the screen when running with 
+  * 1 - important information to follow the correct working of a simulation
+  * 2 - additional information which doesn't spam the screen when running with 
      more than 20 hosts
-  3 - debugging information for following the code-path, only useful for up to
+  * 3 - debugging information for following the code-path, only useful for up to
      20 hosts
-  4 - information for verbose output in testing
-  5 - not really used
+  * 4 - information for verbose output in testing
+  * 5 - not really used
 
 If a given output is interesting for debugging regardless of the level, the
 `Lvl` can be changed to `LLvl` which will always print the information.
