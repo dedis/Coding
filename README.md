@@ -33,16 +33,11 @@ directory which make it a lot easier to handle a lot of long branch names
 and can save you a lot of typing.
 
 ### Pull Requests and Issues
-Ideally, attach your pull request to an open issue by converting the issue
-into a pull request (instead of opening a new pull-request related to that
-issue). With [hub](https://hub.github.com/) this can be easily achieved.
-For example
-```
-hub pull-request -i 117 -b development -h correct_markdown [URL_TO_ISSUE_117]
-```
-converts issue #117 into a pull request for merging branch `correct_markdown`
-into `development`.
 
+We now follow the github practice of having separate issues and pull
+requests. Ideally this allows to have general discussions in the
+issues and more implementation-specific discussions in the pull request.
+If a pull request is deleted, the general discussion is still available.
 
 ### Assignees
 
@@ -63,14 +58,14 @@ PR1 with assignee1
 Now the assignee1 has to merge the PR2 into his PR1, but only somebody else
  than assignee1 can merge the PR1 back into the development-branch.
 
-### Commits
+### Commits and push
 
 The general rule is that for each commit, all tests should pass. This is not
   a hard rule, but it should be used whenever possible.
 
-### Push
+### Merge to development
 
-For push to github.com/dedis, all tests MUST pass. This can be enforced by
+Before merging into development, all tests MUST pass. This can be enforced by
  using the ```.git/hooks/pre-push``` hook provided in this repository.
 
 ### Travis
@@ -78,9 +73,9 @@ For push to github.com/dedis, all tests MUST pass. This can be enforced by
 A travis-script checks the go-formatting and all tests. Before a merge is done,
 Travis must be OK.
 
-### Go-fmt and git pre-push
+### Go-imports and git pre-push
 
-If you have troubles using gofmt in your editor, please use the pre-push hook
+If you have troubles using goimports in your editor, please use the pre-push hook
 in this directory for git. If you alread installed the 'bin'-directory with
 `add_path_to_mac`, you can just call `add_hooks`. Now everytime before your
 changes get pushed, the gofmt renices all your files.
