@@ -7,11 +7,18 @@ Scripts for coding and best practices for the DeDiS-workgroup.
 On top of github, we rely on the [ZenHub](http://ZenHub.io) for project
 management. We use its board to put each task into a 'pipeline':
 
-- Bugs: things that should be fixed ASAP
-- QuickFix: small 1-10 liners for documentation, output or other fixes -
- should be worked on during the last hour of the working-day
-- Features: for new things
-- Refactoring: least important, things we want to rewrite
+- Ready4Merge: pull-requests we think are ready to be merged. Please
+have a regular look into this pipeline and comment. If two engineers
+other than the owner of the pull-request-owner agree to merge, it
+should be done.
+- WIP: Work-In-Progress - what people are currently working on. It is
+OK to move things around between WIP and the following pipeline
+- Next Steps: Open issues that should be treated next. Regular meetings
+(once every two weeks or so) are held to move issues between here and
+the following pipeline. Look out for 'bug' issues first!
+- Later: Issues that pop up but are not on the agenda now. Before moving
+an issue from here to 'Next Steps', please consult with another engineer
+or wait for one of the meetings
 
 ### Branches
 

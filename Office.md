@@ -22,18 +22,4 @@ relevant articles. Sites like Slashdot and CNN don't count.
 ### Code-review
 
 As reading, it is a regular must. 15' per day, chose any projet in the dedis-
-github repositories.
-
-## More on programming
-
-### Zenhub
-
-Please use boards and pipelines to manage your tasks. Keep them update!
-
-We also use milestones to define goals. One or two milestones per month should
-be done.
-
-### Docu
-
-Verify that godoc gives a reasonable output for the parts you've been coding. Do
-this at least before a merge to development or master.
+github repositories, start with Ready4Merge.
