@@ -2,9 +2,9 @@
 
 # Pre-push script that amends formatting of go-code
 
-if [ "$( gofmt -l . )" ]; then
+if [ "$( goimports -l . )" ]; then
 	echo Updating the formatting of go
-	find . -name "*.go" | xargs gofmt -w
+	find . -name "*.go" | xargs goimports -w
 	git commit -a --amend --no-edit
 fi
 
