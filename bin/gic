@@ -12,3 +12,5 @@ if [ "$B_NBR" ]; then
 else
   git_nb
 fi
+
+git stash list
