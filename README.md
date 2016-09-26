@@ -80,6 +80,13 @@ Before merging into development, all tests MUST pass. This can be enforced by
 A travis-script checks the go-formatting and all tests. Before a merge is done,
 Travis must be OK.
 
+### Coveralls
+
+In every PR the code coverage shall not decrease (+/-0.5% is OK though). 
+We aim for ~100% and have 80% as lower boundary. Code containing only `func main`
+and not much more is OK if it is tested by integration tests and manually instead
+of unit tests (for these few packages may have lower code coverage).
+
 ### Go-imports and git pre-push
 
 If you have troubles using goimports in your editor, please use the pre-push hook
