@@ -159,7 +159,7 @@ If a given output is interesting for debugging regardless of the level, the
 This is useful if you are debugging something and want to follow a certain path
 that has only high debug-levels.
 
-For fast dumping of variables one can also use `dbg.Print` which is easy to find
+For fast dumping of variables one can also use `log.Print` which is easy to find
 and remove once the debugging-session is done.
 
 ### Format-functions in debug
