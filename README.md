@@ -23,17 +23,17 @@ or wait for one of the meetings
 ### Branches
 
 All work has to be done in branches. Per default, branches go off from
-`development`, as this is the working branch. For release-critical bugs
-you can also branch from `release`.
+`master`, which should always be in a functional state.
 
-The branch-name should be two or three words, concatenated using underscores.
+The branch-name should be one to three words, concatenated using underscores,
+followed by the number of the issue.
 If you work on a foreign branch, include the start of the foreign branch in
 your branch.
 
-Let's say user 1 made a branch `add_platform_lxc` and you want to
+Let's say user 1 made a branch `add_platform_lxc_345` and you want to
 participate, you'll create a branch that goes off it with the name
-`add_platform_lxc_macosxfix` and do a pull request to the first branch,
-`add_platform_lxc`.
+`add_platform_lxc_macosxfix_345` and do a pull request to the first branch,
+`add_platform_lxc_345`.
 
 There are two scripts, [`gic`](#gid) and [`gid`](#gid), in the `bin`
 directory which make it a lot easier to handle a lot of long branch names
@@ -70,22 +70,35 @@ Now the assignee1 has to merge the PR2 into his PR1, but only somebody else
 The general rule is that for each commit, all tests should pass. This is not
   a hard rule, but it should be used whenever possible.
 
-### Merge to development
+### Merge to master
 
-Before merging into development, all tests MUST pass. This can be enforced by
- using the ```.git/hooks/pre-push``` hook provided in this repository.
+Before merging into master, all tests MUST pass. This can be enforced by
+using the ```.git/hooks/pre-push``` hook provided in this repository.
+Then you have to pass code-review by one or two other developers, which will
+comment your code and ask for changes. Only once at least one other
+developer is happy with your branch can he merge it.
+
+It is good practice to do a `squash` when merging and adding all important
+information about the merge in the squash-comment.
 
 ### Travis
 
 A travis-script checks the go-formatting and all tests. Before a merge is done,
 Travis must be OK.
 
+### Coveralls
+
+In every PR the code coverage shall not decrease (+/-0.5% is OK though). 
+We aim for ~100% and have 80% as lower boundary. Code containing only `func main`
+and not much more is OK if it is tested by integration tests and manually instead
+of unit tests (for these few packages may have lower code coverage).
+
 ### Go-imports and git pre-push
 
 If you have troubles using goimports in your editor, please use the pre-push hook
 in this directory for git. If you alread installed the 'bin'-directory with
 `add_path_to_mac`, you can just call `add_hooks`. Now everytime before your
-changes get pushed, the gofmt renices all your files.
+changes get pushed, `goimport` renices all your files.
 
 ## Comments
 
