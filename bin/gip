@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+git exec make test_fmt test_lint || echo "No makefile found"
+#git exec go build ./...
+git commit -am "$*"
+BRANCH=$( git rev-parse --abbrev-ref HEAD )
+if ! git branch -a | grep -q remotes/origin/$BRANCH; then
+	echo creating $BRANCH on origin
+	git push -u origin $BRANCH
+fi
+git push

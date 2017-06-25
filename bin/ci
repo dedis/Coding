@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+import sys
+
+file = open(sys.argv[1]).read().split("\n")
+
+names = ": ;".join(file[0].split(",")).split(";")
+
+for line in file[1:]:
+    for i, value in enumerate(line.split(",")):
+        names[i] = names[i] + " " + value
+
+print("\n".join(names))

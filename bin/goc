@@ -1,0 +1,8 @@
+#!/bin/bash -e
+tmp=$( mktemp )
+if ! go test -coverprofile=$tmp; then
+	go test -v
+	exit 1
+fi
+go tool cover -html=$tmp
+rm $tmp

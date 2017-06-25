@@ -8,5 +8,11 @@ if [ "$B_NBR" ]; then
   echo $( $0 | egrep "\s$B_NBR\s" | sed -e "s/.* //" | \
   sed -e "s/remotes.origin.//" )
 else
-  ( git branch -a | grep remotes/ | nl -v 100; echo; git branch | nl )
+#  ( git branch -a | grep remotes/ | nl -v 100; echo; git branch | nl )
+	git_branches=$( for b in $( git branch | sed -e "s/^..//" | grep -v "^master$" ); do
+		bid=$( git merge-base $b master )
+		t=$( git show --summary --format="%ai" $bid | sed -e "s/[^ ]*$/- /" | head -n 1 )
+		echo $t $b
+	done )
+	echo -e "2016-01-01 00:00:00 - master\n$git_branches"| sort | nl
 fi
