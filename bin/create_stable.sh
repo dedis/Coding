@@ -45,22 +45,25 @@ parse_args(){
 
     shift $((OPTIND-1))
 
-    REPO=$1
+    REPO_DST=$1
+    git config alias.exec '!exec '
+    local p=$( git exec pwd )
+    REPO_SRC=${p#$GOPATH/src/}
 }
 
 prepare_repo(){
-    if [ ! "$REPO" ]; then
+    if [ ! "$REPO_DST" ]; then
         show_help
     fi
 
-    REPOPATH="$GOPATH/src/$REPO"
+    REPO_DSTPATH="$GOPATH/src/$REPO_DST"
 
-    if [ -e "$REPOPATH" ]; then
+    if [ -e "$REPO_DSTPATH" ]; then
         if [ "$overwrite" ]; then
-            echo "Going to overwrite '$REPOPATH'"
-            rm -rf "$REPOPATH"/*
+            echo "Going to overwrite '$REPO_DSTPATH'"
+            rm -rf "$REPO_DSTPATH"/*
         else
-            echo "'$REPOPATH' exists - either delete it or use '-o'"
+            echo "'$REPO_DSTPATH' exists - either delete it or use '-o'"
             exit 1
         fi
     fi
@@ -72,36 +75,40 @@ copy_stable(){
         exit 1
     fi
 
-    mkdir -p "$REPOPATH"
-    local kyber=$( cd ../..; pwd )
+    mkdir -p "$REPO_DSTPATH"
+    local reposrc=$( cd ..; pwd )
     for d in $( cat directories ); do
         echo "Adding directory '$d' to stable"
-        local kyberdir="$kyber/$d"
-        local repodir="$REPOPATH/$d"
+        local dir="$reposrc/$d"
+        local repodir="$REPO_DSTPATH/$d"
         mkdir -p "$repodir"
-        if [ -d "$kyberdir" ]; then
-            find "$kyberdir" -maxdepth 1 -type f | xargs -I {} cp {} "$repodir"
+        if [ -d "$dir" ]; then
+            find "$dir" -maxdepth 1 -type f | xargs -I {} cp {} "$repodir"
         else
-            echo "Directory '$kyberdir' is not present - please update your directories-file. Aborting"
+            echo "Directory '$dir' is not present - please update your directories-file. Aborting"
             exit 1
         fi
     done
 }
 
 copy_repo(){
-    cp -av overwrite/* "$REPOPATH"
+    if [ -d overwrite ]; then
+        cp -av overwrite/* "$REPO_DSTPATH"
+    fi
 }
 
 remove_files(){
-    for f in $( cat remove_files ); do
-        rm "$REPOPATH"/$f
-    done
+    if [ -f remove_files ]; then
+        for f in $( cat remove_files ); do
+            rm "$REPO_DSTPATH"/$f
+        done
+    fi
 }
 
 update_imports(){
-    echo "updating imports"
-    find "$REPOPATH" -name "*go" -exec perl -pi -e "s:github.com/dedis/kyber:$REPO:" "{}" \;
-    find "$REPOPATH" -name "*go" -exec goimports -w "{}" \;
+    echo "updating imports from $REPO_SRC to $REPO_DST"
+    find "$REPO_DSTPATH" -name "*go" -exec perl -pi -e "s:$REPO_SRC:$REPO_DST:" "{}" \;
+    find "$REPO_DSTPATH" -name "*go" -exec goimports -w "{}" \;
 }
 
 main $@
