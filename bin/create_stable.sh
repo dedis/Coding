@@ -83,7 +83,14 @@ copy_stable(){
         local repodir="$REPO_DST_PATH/$d"
         mkdir -p "$repodir"
         if [ -d "$dir" ]; then
-            find "$dir" -maxdepth 1 -type f | xargs -I {} cp {} "$repodir"
+            (
+            cd $dir
+            for f in $( git ls-files .); do
+                if [ "$f" = "${f%/*}" ]; then
+                    cp $f "$repodir"
+                fi
+            done
+            )
         else
             echo "Directory '$dir' is not present - please update your directories-file. Aborting"
             exit 1
