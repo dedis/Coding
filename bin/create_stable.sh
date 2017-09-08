@@ -13,9 +13,20 @@ main(){
 
 show_help(){
     echo "
-Syntax is: $0 [-ohv] stable_repo
+Syntax is: $0 [-ohv] stable_dir stable_repo
 
-Gets all stable code and puts it in a new repo.
+Reads stable_dir to know which directories it should copy to
+stable_repo. The following files and directories in stable_dir
+are use:
+
+- directories - one directory per line that will be copied to stable_repo
+- overwrite/ - a directory that will be copied to stable_repo
+- remove_files - files to be removed from stable repo
+
+After copying, overwriting and removing files, the path of the
+current repo will be adjusted to the stable_repo path.
+
+Flags:
 
     -h      help
     -v      verbose
@@ -45,10 +56,15 @@ parse_args(){
 
     shift $((OPTIND-1))
 
-    REPO_DST=$1
+	STABLE_DIR=$1
+	DIRECTORIES=$STABLE_DIR/directories
+	OVERWRITE_DIR=$STABLE_DIR/overwrite
+	REMOVE_FILES=$STABLE_DIR/remove_files
+
+    REPO_DST=$2
     git config alias.exec '!exec '
-    local p=$( git exec pwd )
-    REPO_SRC=${p#$GOPATH/src/}
+    REPO_SRC_PATH=$( git exec pwd )
+    REPO_SRC=${REPO_SRC_PATH#$GOPATH/src/}
 }
 
 prepare_repo(){
@@ -70,43 +86,41 @@ prepare_repo(){
 }
 
 copy_stable(){
-    if [ ! -f directories ]; then
+    if [ ! -f "$DIRECTORIES" ]; then
         echo "Didn't find file 'directories' - so I don't know what to do."
         exit 1
     fi
 
     mkdir -p "$REPO_DST_PATH"
-    local reposrc=$( cd ..; pwd )
-    for d in $( cat directories ); do
+    for d in $( cat "$DIRECTORIES" ); do
         echo "Adding directory '$d' to stable"
-        local dir="$reposrc/$d"
-        local repodir="$REPO_DST_PATH/$d"
-        mkdir -p "$repodir"
-        if [ -d "$dir" ]; then
+        local srcdir="$REPO_SRC_PATH/$d"
+        local dstdir="$REPO_DST_PATH/$d"
+        mkdir -p "$dstdir"
+        if [ -d "$srcdir" ]; then
+            # Copy only files that are stored in git. Unfortunately git
+            # prints recursively all files when doing `git ls-files`, so
+            # the output has to be filtered.
             (
-            cd $dir
-            for f in $( git ls-files .); do
-                if [ "$f" = "${f%/*}" ]; then
-                    cp $f "$repodir"
-                fi
-            done
+                cd $srcdir
+                cp $( git ls-files . | grep -v "/") $dstdir
             )
         else
-            echo "Directory '$dir' is not present - please update your directories-file. Aborting"
+            echo "Directory '$srcdir' is not present - please update your directories-file. Aborting"
             exit 1
         fi
     done
 }
 
 copy_repo(){
-    if [ -d overwrite ]; then
-        cp -av overwrite/* "$REPO_DST_PATH"
+    if [ -d "$OVERWRITE_DIR" ]; then
+        cp -av "$OVERWRITE_DIR"/* "$REPO_DST_PATH"
     fi
 }
 
 remove_files(){
-    if [ -f remove_files ]; then
-        for f in $( cat remove_files ); do
+    if [ -f "$REMOVE_FILES" ]; then
+        for f in $( cat "$REMOVE_FILES" ); do
             rm "$REPO_DST_PATH"/$f
         done
     fi
