@@ -9,6 +9,7 @@ main(){
     copy_repo
     remove_files
     update_imports
+    exec_script
 }
 
 show_help(){
@@ -22,6 +23,8 @@ are use:
 - directories - one directory per line that will be copied to stable_repo
 - overwrite/ - a directory that will be copied to stable_repo
 - remove_files - files to be removed from stable repo
+- script - will be sourced after imports are rewritten with REPO_SRC_PATH
+  and REPO_DST_PATH as arguments
 
 After copying, overwriting and removing files, the path of the
 current repo will be adjusted to the stable_repo path.
@@ -60,6 +63,7 @@ parse_args(){
 	DIRECTORIES=$STABLE_DIR/directories
 	OVERWRITE_DIR=$STABLE_DIR/overwrite
 	REMOVE_FILES=$STABLE_DIR/remove_files
+	SCRIPT=$STABLE_DIR/script
 
     REPO_DST=$2
     git config alias.exec '!exec '
@@ -103,7 +107,9 @@ copy_stable(){
             # the output has to be filtered.
             (
                 cd $srcdir
-                cp $( git ls-files . | grep -v "/") $dstdir
+                for f in $( git ls-files . | grep -v "/"); do
+                    cp $f "$dstdir"
+                done
             )
         else
             echo "Directory '$srcdir' is not present - please update your directories-file. Aborting"
@@ -133,6 +139,12 @@ update_imports(){
     echo "updating imports from $REPO_SRC to $REPO_DST"
     find "$REPO_DST_PATH" -name "*go" -exec perl -pi -e "s:$REPO_SRC:$REPO_DST:" "{}" \;
     find "$REPO_DST_PATH" -name "*go" -exec goimports -w "{}" \;
+}
+
+exec_script(){
+	if [ -f "$SCRIPT" ]; then
+		. $SCRIPT "$REPO_SRC_PATH" "$REPO_DST_PATH"
+    fi
 }
 
 main $@
