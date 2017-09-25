@@ -1,0 +1,52 @@
+PKG_TEST = gopkg.in/dedis/Coding.test
+PKG_TEST_PATH = $$GOPATH/src/$(PKG_TEST)
+CODING = $$GOPATH/src/github.com/dedis/Coding/bin
+CREATE_STABLE = $(CODING)/create_stable.sh -o stable
+
+test_fmt:
+	@echo Checking correct formatting of files
+	@{ \
+		files=$$( go fmt ./... ); \
+		if [ -n "$$files" ]; then \
+		echo "Files not properly formatted: $$files"; \
+		exit 1; \
+		fi; \
+		if ! go vet ./...; then \
+		exit 1; \
+		fi \
+	}
+
+test_lint:
+	@echo Checking linting of files
+	@{ \
+		go get -u github.com/golang/lint/golint; \
+		exclude="byzcoin|_test.go"; \
+		lintfiles=$$( golint ./... | egrep -v "($$exclude)" ); \
+		if [ -n "$$lintfiles" ]; then \
+		echo "Lint errors:"; \
+		echo "$$lintfiles"; \
+		exit 1; \
+		fi \
+	}
+
+test_verbose:
+	go test -v -race -short -p=1 ./...
+
+test_goveralls:
+	$(CODING)/coveralls.sh
+	$$GOPATH/bin/goveralls -coverprofile=profile.cov -service=travis-ci
+
+test_stable_build:
+	$(CREATE_STABLE) $(PKG_TEST)
+	cd $(PKG_TEST_PATH); go build ./...
+	test -d $(PKG_TEST_PATH) && rm -rf $(PKG_TEST_PATH)
+
+test_stable:
+	$(CREATE_STABLE) $(PKG_TEST)
+	cd $(PKG_TEST_PATH); make test
+	test -d $(PKG_TEST_PATH) && rm -rf $(PKG_TEST_PATH)
+
+test: test_fmt test_lint test_goveralls test_stable_build
+
+create_stable:
+	$(CREATE_STABLE) $(PKG_STABLE)
