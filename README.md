@@ -13,12 +13,10 @@ other than the owner of the pull-request-owner agree to merge, it
 should be done.
 - WIP: Work-In-Progress - what people are currently working on. It is
 OK to move things around between WIP and the following pipeline
-- Next Steps: Open issues that should be treated next. Regular meetings
-(once every two weeks or so) are held to move issues between here and
-the following pipeline. Look out for 'bug' issues first!
-- Later: Issues that pop up but are not on the agenda now. Before moving
-an issue from here to 'Next Steps', please consult with another engineer
-or wait for one of the meetings
+- TODO: Open issues that should be treated next.
+- BUG: Issues that make the project behave in a not-wanted way.
+- NeedDetails: Issues that are not detailed enough to work on them
+and need more explanation.
 
 ### Branches
 
@@ -26,7 +24,7 @@ All work has to be done in branches. Per default, branches go off from
 `master`, which should always be in a functional state.
 
 The branch-name should be one to three words, concatenated using underscores,
-followed by the number of the issue.
+followed by the number of the issue it solves.
 If you work on a foreign branch, include the start of the foreign branch in
 your branch.
 
@@ -45,6 +43,9 @@ We now follow the github practice of having separate issues and pull
 requests. Ideally this allows to have general discussions in the
 issues and more implementation-specific discussions in the pull request.
 If a pull request is deleted, the general discussion is still available.
+
+Using Zenhub, you can connect pull-requests and issues, so they show
+up as being together in the zenhub-board.
 
 ### Assignees
 
