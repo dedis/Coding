@@ -126,8 +126,9 @@ copy_repo(){
 
 remove_files(){
     if [ -f "$REMOVE_FILES" ]; then
+        echo "Removing files:"
         for f in $( cat "$REMOVE_FILES" ); do
-            rm "$REPO_DST_PATH"/$f
+            rm -v "$REPO_DST_PATH"/$f
         done
     fi
 }
