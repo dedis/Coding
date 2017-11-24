@@ -2,6 +2,11 @@
 
 set -e
 
+gopath=`go env GOPATH`
+
+# To avoid warnings from Perl
+export LANG=C
+
 main(){
     parse_args $@
     prepare_repo
@@ -68,7 +73,7 @@ parse_args(){
     REPO_DST=$2
     git config alias.exec '!exec '
     REPO_SRC_PATH=$( git exec pwd )
-    REPO_SRC=${REPO_SRC_PATH#$GOPATH/src/}
+    REPO_SRC=${REPO_SRC_PATH#$gopath/src/}
 }
 
 prepare_repo(){
@@ -76,7 +81,7 @@ prepare_repo(){
         show_help
     fi
 
-    REPO_DST_PATH="$GOPATH/src/$REPO_DST"
+    REPO_DST_PATH="$gopath/src/$REPO_DST"
 
     if [ -e "$REPO_DST_PATH" ]; then
         if [ "$overwrite" ]; then
