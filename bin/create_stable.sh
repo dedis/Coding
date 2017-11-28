@@ -120,7 +120,7 @@ copy_stable(){
 
 copy_repo(){
     if [ -d "$OVERWRITE_DIR" ]; then
-        cp -av "$OVERWRITE_DIR"/* "$REPO_DST_PATH"
+        cp -av $( find stable/overwrite -type file ) "$REPO_DST_PATH"
     fi
 }
 
