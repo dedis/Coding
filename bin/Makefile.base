@@ -44,12 +44,12 @@ test_stable_build:
 	cd $(PKG_TEST_PATH); go build ./...
 	test -d $(PKG_TEST_PATH) && rm -rf $(PKG_TEST_PATH)
 
-test_stable:
-	$(CREATE_STABLE) $(PKG_TEST)
-	cd $(PKG_TEST_PATH); make test
-	test -d $(PKG_TEST_PATH) && rm -rf $(PKG_TEST_PATH)
-
 test: test_fmt test_lint test_goveralls test_stable_build
+
+# test_stable is like target test, but does not try to run test_stable_build.
+# It is used in the .travis.yml files in stable/override, so that on Travis builds
+# on stable branches do not try to run "create_stable" and fail.
+test_stable: test_fmt test_lint test_goveralls
 
 create_stable:
 	$(CREATE_STABLE) $(PKG_STABLE)
