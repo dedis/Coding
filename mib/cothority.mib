@@ -1,0 +1,31 @@
+COTHORITY-MIB DEFINITIONS ::= BEGIN
+ 
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE, enterprises
+      FROM SNMPv2-SMI;
+ 
+cothority MODULE-IDENTITY
+    LAST-UPDATED "201801010000Z"
+    ORGANIZATION "DEDIS"
+    CONTACT-INFO "dedis@dedis.ch"
+    DESCRIPTION
+            "DEDIS X509 certificate extensions."
+    REVISION "201801010000Z"
+    DESCRIPTION "First draft."
+    ::= { dedis 1 }
+
+dedis       OBJECT IDENTIFIER ::= { enterprises 51281 }
+
+tlsExt       OBJECT IDENTIFIER ::= { cothority 1 }
+
+signature OBJECT-TYPE
+    SYNTAX     OCTET STRING
+    STATUS current
+    -- MAX-ACCESS read-only
+    DESCRIPTION "A Schnorr signature of a message consisting of the
+	ASN.1 encoding of the the serial number of the certificate
+	concatenated with the ASN.1 encoding of the CN of the
+	certificate."
+            ::= { tlsExt 1 }
+
+END
