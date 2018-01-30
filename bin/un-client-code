@@ -1,0 +1,20 @@
+#!/bin/sh
+
+LANG=C
+export LANG
+
+for i in `find . -name \*.go`
+do
+	echo $i
+	perl -p -i -e 's/return nil, onet\.NewClientErrorCode\([A-Za-z0-9\.]+, err.Error\(\)\)/return nil, err/' $i
+	perl -p -i -e 's/return nil, onet\.NewClientErrorCode\([A-Za-z0-9\.]+, ("[^"]*")\)/return nil, errors.New($1)/' $i
+	perl -p -i -e 's/cerr = (\w+)\./err = $1./' $i
+	perl -p -i -e 's/cerr := (\w+)\./err := $1./' $i
+	perl -p -i -e 's/cerr onet.ClientError\) {/err error) {/' $i
+	perl -p -i -e 's/, onet.ClientError\) {/, error) {/' $i
+	perl -p -i -e 's/if cerr != nil/if err != nil/' $i
+	perl -p -i -e 's/if cerr == nil/if err == nil/' $i
+	perl -p -i -e 's/return nil, cerr/return nil, err/' $i
+	perl -p -i -e 's/return nil, onet.NewClientError\(err\)/return nil, err/' $i
+	perl -p -i -e 's/require.Nil(t, cerr)/require.Nil(t, err)/' $i
+done
