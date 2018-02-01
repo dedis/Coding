@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
-git exec make test_fmt test_lint || echo "No makefile found"
+if git exec test -f Makefile; then
+	git exec make test_fmt test_lint
+fi
 #git exec go build ./...
 git commit -am "$*"
 BRANCH=$( git rev-parse --abbrev-ref HEAD )
