@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ "$TRAVIS_BRANCH" != "master" ]; then
+    exit 0
+fi
+
+if [ -z "$OTHER_REPO" ]; then
+	echo OTHER_REPO is not set.
+	exit 1
+fi
+repo=`echo "$OTHER_REPO" | sed 's/\//%2f/g'`
+
+if [ -z "$GH_TOKEN" ]; then
+	echo GH_TOKEN is not set.
+	exit 1
+fi
+
+travis login --pro -g $GH_TOKEN
+tok=`travis token --pro`
+
+body='{ "request": { "branch":"master", "message": "triggered from $TRAVIS_REPO_SLUG" }}'
+
+curl -s -X POST \
+     -H "Content-Type: application/json" \
+     -H "Accept: application/json" \
+     -H "Travis-API-Version: 3" \
+     -H "Authorization: token $tok" -d "$body" \
+     https://api.travis-ci.com/repo/$repo/requests
