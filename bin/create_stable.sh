@@ -13,7 +13,7 @@ main(){
     copy_stable
     copy_repo
     remove_files
-    update_imports
+    update_all_imports
     exec_script
 }
 
@@ -138,13 +138,27 @@ remove_files(){
     fi
 }
 
-update_imports(){
-	if ! which goimports 2>&1 > /dev/null; then
-		go get golang.org/x/tools/cmd/goimports
-	fi
-    echo "updating imports from $REPO_SRC to $REPO_DST"
-    find "$REPO_DST_PATH" -name "*go" -exec perl -pi -e "s:$REPO_SRC:$REPO_DST:" "{}" \;
-    find "$REPO_DST_PATH" -name "*go" -exec goimports -w "{}" \;
+update_all_imports(){
+    if ! which goimports 2>&1 > /dev/null; then
+	go get golang.org/x/tools/cmd/goimports
+    fi
+    
+    update_imports $REPO_SRC $REPO_DST
+
+    # Additional, hacky, updates
+    if [ "$REPO_SRC" = "github.com/dedis/onet" ]; then
+	update_imports github.com/dedis/kyber gopkg.in/dedis/kyber.v2
+    fi
+    if [ "$REPO_SRC" = "github.com/dedis/cothority" ]; then
+	update_imports github.com/dedis/kyber gopkg.in/dedis/kyber.v2
+	update_imports github.com/dedis/onet gopkg.in/dedis/onet.v2
+    fi
+}
+
+update_imports() {
+    echo "updating imports from $1 to $2"
+    find "$REPO_DST_PATH" -name "*.go" -exec perl -pi -e "s:$1:$2:" "{}" \;
+    find "$REPO_DST_PATH" -name "*.go" -exec goimports -w "{}" \;
 }
 
 exec_script(){
