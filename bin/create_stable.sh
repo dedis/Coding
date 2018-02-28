@@ -139,10 +139,6 @@ remove_files(){
 }
 
 update_all_imports(){
-    if ! which goimports 2>&1 > /dev/null; then
-	go get golang.org/x/tools/cmd/goimports
-    fi
-    
     update_imports $REPO_SRC $REPO_DST
 
     # Additional, hacky, updates
@@ -153,12 +149,14 @@ update_all_imports(){
 	update_imports github.com/dedis/kyber gopkg.in/dedis/kyber.v2
 	update_imports github.com/dedis/onet gopkg.in/dedis/onet.v2
     fi
+    
+    echo "Formatting after import updates."
+    go fmt $REPO_DST/... > /dev/null
 }
 
 update_imports() {
     echo "updating imports from $1 to $2"
     find "$REPO_DST_PATH" -name "*.go" -exec perl -pi -e "s:$1:$2:" "{}" \;
-    find "$REPO_DST_PATH" -name "*.go" -exec goimports -w "{}" \;
 }
 
 exec_script(){

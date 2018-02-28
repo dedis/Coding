@@ -41,7 +41,7 @@ test_goveralls:
 
 test_stable_build:
 	$(CREATE_STABLE) $(PKG_TEST)
-	cd $(PKG_TEST_PATH); go build ./...
+	cd $(PKG_TEST_PATH) && go get ./... && go build ./...
 	test -d $(PKG_TEST_PATH) && rm -rf $(PKG_TEST_PATH)
 
 test: test_fmt test_lint test_goveralls test_stable_build
