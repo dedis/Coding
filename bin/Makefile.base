@@ -1,6 +1,5 @@
-PKG_TEST = gopkg.in/dedis/Coding.test
 gopath=$(shell go env GOPATH)
-PKG_TEST_PATH = $(gopath)/src/$(PKG_TEST)
+PKG_STABLE_PATH = $(gopath)/src/$(PKG_STABLE)
 CODING = $(gopath)/src/github.com/dedis/Coding/bin
 CREATE_STABLE = $(CODING)/create_stable.sh -o stable
 EXCLUDE_LINT = "_test.go"
@@ -40,9 +39,9 @@ test_goveralls:
 	$(gopath)/bin/goveralls -coverprofile=profile.cov -service=travis-ci || true
 
 test_stable_build:
-	$(CREATE_STABLE) $(PKG_TEST)
-	cd $(PKG_TEST_PATH) && go get ./... && go build ./...
-	test -d $(PKG_TEST_PATH) && rm -rf $(PKG_TEST_PATH)
+	$(CREATE_STABLE) $(PKG_STABLE)
+	cd $(PKG_STABLE_PATH) && go get ./... && go build ./...
+	test -d $(PKG_STABLE_PATH) && rm -rf $(PKG_STABLE_PATH)
 
 test: test_fmt test_lint test_goveralls test_stable_build
 
