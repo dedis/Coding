@@ -9,12 +9,13 @@ if [ "$B_NBR" ]; then
   else
     echo "Didn't find branch number $B_NBR"
   fi
-  if [ "$BRANCH" = "master" ]; then
+#  if [ "$BRANCH" = "master" ]; then
     git_nb
-  fi
+#  fi
 else
   git_nb
 fi
 git branch | grep "^*"
+git submodule --quiet update
 git stash list
 git diff --name-only
