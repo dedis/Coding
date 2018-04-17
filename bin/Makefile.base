@@ -21,7 +21,7 @@ test_lint:
 	@echo Checking linting of files
 	@{ \
 		go get -u github.com/golang/lint/golint; \
-		el="$(EXCLUDE_LINT)"; \
+		el=$(EXCLUDE_LINT); \
 		lintfiles=$$( golint ./... | egrep -v "$$el" ); \
 		if [ -n "$$lintfiles" ]; then \
 		echo "Lint errors:"; \
