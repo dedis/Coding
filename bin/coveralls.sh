@@ -23,7 +23,7 @@ for dir in $DIR_SOURCE; do
           cat $tmp
           all_tests_passed=false
         else
-          head -n 1 $tmp
+          tail -n 1 $tmp
         fi
         if [ -f $dir/profile.tmp ]; then
           tail -n +2 $dir/profile.tmp >> profile.cov
