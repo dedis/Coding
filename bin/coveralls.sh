@@ -17,8 +17,8 @@ for dir in $DIR_SOURCE; do
   if ! echo $DIR_EXCLUDE | grep -q $dir; then
     if ls $dir/*.go >/dev/null 2>&1; then
       if ! grep "// +build experimental" $dir/*.go > /dev/null; then
-        DEBUG_TIME=true go test -v -short -race -covermode=atomic -coverprofile=$dir/profile.tmp $dir 2>&1 \
-          > $tmp
+        DEBUG_TIME=true go test -v -short -race -covermode=atomic -coverprofile=$dir/profile.tmp $dir \
+          > $tmp 2>&1
         if [ $? -ne "0" ]; then
           cat $tmp
           all_tests_passed=false
