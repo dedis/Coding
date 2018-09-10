@@ -1,11 +1,5 @@
 # Programming
 
-## Zenhub
-
-Please use boards and pipelines to manage your tasks. Keep them update!
-
-You can connect to zenhub here: https://zenhub.com
-
 ## Development cycle
 
 Start in master and make sure it's up to date:

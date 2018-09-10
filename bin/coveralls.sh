@@ -18,7 +18,7 @@ for dir in $DIR_SOURCE; do
     if ls $dir/*.go >/dev/null 2>&1; then
       if ! grep "// +build experimental" $dir/*.go > /dev/null; then
         DEBUG_TIME=true go test -v -short -race -covermode=atomic -coverprofile=$dir/profile.tmp \
-          -timeout 5m $dir > $tmp 2>&1
+          -timeout 5m -failfast $dir > $tmp 2>&1
         if [ $? -ne "0" ]; then
           cat $tmp
           all_tests_passed=false
