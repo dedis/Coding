@@ -44,9 +44,6 @@ requests. Ideally this allows to have general discussions in the
 issues and more implementation-specific discussions in the pull request.
 If a pull request is deleted, the general discussion is still available.
 
-Using Zenhub, you can connect pull-requests and issues, so they show
-up as being together in the zenhub-board.
-
 ### Assignees
 
 An issue/pull-request with an assignee belongs to this person - he is
