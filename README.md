@@ -4,8 +4,8 @@ Scripts for coding and best practices for the DeDiS-workgroup.
 
 ## GitHub usage
 
-On top of github, we rely on the [ZenHub](http://ZenHub.io) for project
-management. We use its board to put each task into a 'pipeline':
+We make use of Github's project: https://github.com/dedis/projects/1 and
+define the following columns:
 
 - Ready4Merge: pull-requests we think are ready to be merged. Please
 have a regular look into this pipeline and comment. If two engineers
@@ -43,9 +43,6 @@ We now follow the github practice of having separate issues and pull
 requests. Ideally this allows to have general discussions in the
 issues and more implementation-specific discussions in the pull request.
 If a pull request is deleted, the general discussion is still available.
-
-Using Zenhub, you can connect pull-requests and issues, so they show
-up as being together in the zenhub-board.
 
 ### Assignees
 

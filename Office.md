@@ -4,13 +4,8 @@ Some office rules for the DeDiS-engineer team
 
 ## Communication
 
-First thing in the morning, when everybody arrived, short discussion of what we
-did and what we'll be doing during the day.
-
 If somebody has headphones or another sign, don't bother him. Ask on Slack. If
 you 'hide' for more than 4 hours a day, be prepared to be bothered anyway.
-
-No phone-calls in the office, except the official EPFL-Jabber.
 
 ## Everyday tasks
 
