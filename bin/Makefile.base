@@ -1,7 +1,6 @@
 gopath=$(shell go env GOPATH)
 PKG_STABLE_PATH = $(gopath)/src/$(PKG_STABLE)
 CODING = $(gopath)/src/github.com/dedis/Coding/bin
-CREATE_STABLE = $(CODING)/create_stable.sh -o stable
 EXCLUDE_LINT = "_test.go"
 
 test_fmt:
@@ -38,17 +37,5 @@ test_goveralls:
 	$(CODING)/coveralls.sh $(EXCLUDE_TEST)
 	$(gopath)/bin/goveralls -coverprofile=profile.cov -service=travis-ci || true
 
-test_stable_build:
-	$(CREATE_STABLE) $(PKG_STABLE)
-	cd $(PKG_STABLE_PATH) && go get ./... && go build ./...
-	test -d $(PKG_STABLE_PATH) && rm -rf $(PKG_STABLE_PATH)
+test: test_fmt test_lint test_goveralls 
 
-test: test_fmt test_lint test_goveralls test_stable_build
-
-# test_stable is like target test, but does not try to run test_stable_build.
-# It is used in the .travis.yml files in stable/override, so that on Travis builds
-# on stable branches do not try to run "create_stable" and fail.
-test_stable: test_fmt test_lint test_goveralls
-
-create_stable:
-	$(CREATE_STABLE) $(PKG_STABLE)
