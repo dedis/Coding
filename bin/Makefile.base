@@ -19,7 +19,7 @@ test_fmt:
 test_lint:
 	@echo Checking linting of files
 	@{ \
-		go get -u github.com/golang/lint/golint; \
+		GO111MODULE=off go get -u github.com/golang/lint/golint; \
 		el=$(EXCLUDE_LINT); \
 		lintfiles=$$( golint ./... | egrep -v "$$el" ); \
 		if [ -n "$$lintfiles" ]; then \
@@ -33,7 +33,7 @@ test_verbose:
 	go test -v -race -short -p=1 ./...
 
 test_goveralls:
-	go get github.com/mattn/goveralls
+	GO111MODULE=off go get github.com/mattn/goveralls
 	$(CODING)/coveralls.sh $(EXCLUDE_TEST)
 	$(gopath)/bin/goveralls -coverprofile=profile.cov -service=travis-ci || true
 
