@@ -73,7 +73,9 @@ The general rule is that for each commit, all tests should pass. This is not
 Before merging into master, all tests MUST pass. This can be enforced by
 using the ```.git/hooks/pre-push``` hook provided in this repository.
 Then you have to pass code-review by one or two other developers, which will
-comment your code and ask for changes. Only once at least one other
+comment your code and ask for changes (see for example 
+[google code review practices](https://google.github.io/eng-practices/review/reviewer/). 
+Only once at least one other
 developer is happy with your branch can he merge it.
 
 It is good practice to do a `squash` when merging and adding all important
