@@ -1,41 +1,35 @@
-gopath=$(shell go env GOPATH)
-PKG_STABLE_PATH = $(gopath)/src/$(PKG_STABLE)
-CODING = $(gopath)/src/github.com/dedis/Coding/bin
-EXCLUDE_LINT = "_test.go"
+# prefix to find Coding root
+CODING ?= Coding
 
+GOPATH := $(shell go env GOPATH)
+
+.PHONY: test_fmt
 test_fmt:
 	@echo Checking correct formatting of files
-	@{ \
-		files=$$( go fmt `go list ./... | grep -v /build/conode_` ); \
-		if [ -n "$$files" ]; then \
-		echo "Files not properly formatted: $$files"; \
-		exit 1; \
-		fi; \
-		if ! go vet ./...; then \
-		exit 1; \
-		fi \
-	}
+	[ -z "`gofmt -l .`" ]
+	go vet ./...
 
-test_lint:
+.PHONY: test_lint
+test_lint: private PATH := $(PATH):$(GOPATH)/bin
+test_lint: $(GOPATH)/bin/golint
 	@echo Checking linting of files
-	@{ \
-		GO111MODULE=off go get -u golang.org/x/lint/golint; \
-		el=$(EXCLUDE_LINT); \
-		lintfiles=$$( golint ./... | egrep -v "$$el" ); \
-		if [ -n "$$lintfiles" ]; then \
-		echo "Lint errors:"; \
-		echo "$$lintfiles"; \
-		exit 1; \
-		fi \
-	}
+	[ -z "`golint ./... | grep -vE '$(EXCLUDE_LINT)'`" ]
+$(GOPATH)/bin/golint:
+	go get golang.org/x/lint/golint
 
+.PHONY: test_verbose
 test_verbose:
-	go test -v -race -short -p=1 ./...
+	go test -v -race ./...
 
-test_goveralls:
-	GO111MODULE=off go get -u github.com/mattn/goveralls
-	$(CODING)/coveralls.sh $(EXCLUDE_TEST)
-	$(gopath)/bin/goveralls -coverprofile=profile.cov -service=travis-ci || true
+.PHONY: test_goveralls
+test_goveralls: private PATH := $(PATH):$(GOPATH)/bin
+test_goveralls: profile.cov $(GOPATH)/bin/goveralls
+	goveralls -coverprofile=$< -service=travis-ci
+.INTERMEDIATE: profile.cov
+profile.cov:
+	$(CODING)/bin/coveralls.sh
+$(GOPATH)/bin/goveralls:
+	go get github.com/mattn/goveralls
 
+.PHONY: test
 test: test_fmt test_lint test_goveralls 
-
