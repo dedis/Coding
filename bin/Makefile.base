@@ -17,10 +17,6 @@ test_lint: $(GOPATH)/bin/golint
 $(GOPATH)/bin/golint:
 	go get golang.org/x/lint/golint
 
-.PHONY: test_verbose
-test_verbose:
-	go test -v -race ./...
-
 .PHONY: test_goveralls
 test_goveralls: profile.cov $(GOPATH)/bin/goveralls
 	goveralls -coverprofile=$< -service=travis-ci
