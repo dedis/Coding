@@ -2,6 +2,7 @@
 CODING ?= Coding
 
 GOPATH := $(shell go env GOPATH)
+PATH := $(PATH):$(GOPATH)/bin
 
 .PHONY: test_fmt
 test_fmt:
@@ -10,7 +11,6 @@ test_fmt:
 	go vet ./...
 
 .PHONY: test_lint
-test_lint: private PATH := $(PATH):$(GOPATH)/bin
 test_lint: $(GOPATH)/bin/golint
 	@echo Checking linting of files
 	[ -z "`golint ./... | grep -vE '$(EXCLUDE_LINT)'`" ]
@@ -22,7 +22,6 @@ test_verbose:
 	go test -v -race ./...
 
 .PHONY: test_goveralls
-test_goveralls: private PATH := $(PATH):$(GOPATH)/bin
 test_goveralls: profile.cov $(GOPATH)/bin/goveralls
 	goveralls -coverprofile=$< -service=travis-ci
 .INTERMEDIATE: profile.cov
