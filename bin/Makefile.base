@@ -1,5 +1,10 @@
 # prefix to find Coding root
 CODING ?= Coding
+# what to remove from golint
+lint-filter := cat
+ifdef EXCLUDE_LINT
+lint-filter := grep -vE '$(EXCLUDE_LINT)'
+endif
 
 GOPATH := $(shell go env GOPATH)
 PATH := $(PATH):$(GOPATH)/bin
@@ -13,7 +18,7 @@ test_fmt:
 .PHONY: test_lint
 test_lint: $(GOPATH)/bin/golint
 	@echo Checking linting of files
-	[ -z "`golint ./... | grep -vE '$(EXCLUDE_LINT)'`" ]
+	[ -z "`golint ./... | $(lint-filter)`" ]
 $(GOPATH)/bin/golint:
 	go get golang.org/x/lint/golint
 
