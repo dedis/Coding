@@ -12,7 +12,7 @@ PATH := $(PATH):$(GOPATH)/bin
 .PHONY: test_fmt
 test_fmt:
 	@echo Checking correct formatting of files
-	[ -z "`gofmt -l .`" ]
+	[ -z "`gofmt -l -s .`" ]
 	go vet ./...
 
 .PHONY: test_lint
