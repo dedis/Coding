@@ -12,13 +12,13 @@ PATH := $(PATH):$(GOPATH)/bin
 .PHONY: test_fmt
 test_fmt:
 	@echo Checking correct formatting of files
-	[ -z "`gofmt -l -s .`" ]
+	out=`gofmt -l -s .`; echo "$$out"; [ -z "$$out" ]
 	go vet ./...
 
 .PHONY: test_lint
 test_lint: $(GOPATH)/bin/golint
 	@echo Checking linting of files
-	[ -z "`golint ./... | $(lint-filter)`" ]
+	out=`$< ./... | $(lint-filter)`; echo "$$out"; [ -z "$$out" ]
 $(GOPATH)/bin/golint:
 	go get golang.org/x/lint/golint
 
