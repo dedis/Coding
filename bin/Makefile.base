@@ -19,7 +19,7 @@ test_fmt:
 test_lint: $(GOPATH)/bin/golint
 	@echo Checking linting of files
 	out=`$< ./... | $(lint-filter)`; echo "$$out"; [ -z "$$out" ]
-	go mod tidy
+	go mod tidy && [ -z "`git status --porcelain`" ]
 $(GOPATH)/bin/golint:
 	go get golang.org/x/lint/golint
 
