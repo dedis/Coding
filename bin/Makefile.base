@@ -21,7 +21,7 @@ test_lint: $(GOPATH)/bin/golint
 	out=`$< ./... | $(lint-filter)`; echo "$$out"; [ -z "$$out" ]
 	go mod tidy && [ -z "`git status --porcelain`" ]
 $(GOPATH)/bin/golint:
-	go get golang.org/x/lint/golint
+	GO111MODULE=off go get golang.org/x/lint/golint
 
 .PHONY: test_goveralls
 test_goveralls: profile.cov $(GOPATH)/bin/goveralls
@@ -30,7 +30,7 @@ test_goveralls: profile.cov $(GOPATH)/bin/goveralls
 profile.cov:
 	$(CODING)/bin/coveralls.sh
 $(GOPATH)/bin/goveralls:
-	go get github.com/mattn/goveralls
+	GO111MODULE=off go get github.com/mattn/goveralls
 
 .PHONY: test
 test: test_fmt test_lint test_goveralls 
