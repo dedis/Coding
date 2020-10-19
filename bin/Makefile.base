@@ -18,7 +18,7 @@ test_fmt:
 .PHONY: test_imports
 test_imports:
 	@echo Checking correct formatting and import lines of files
-	out=`goimports -l -s .`; echo "$$out"; [ -z "$$out" ]
+	out=`goimports -l .`; echo "$$out"; [ -z "$$out" ]
 	go vet ./...
 
 .PHONY: test_lint
