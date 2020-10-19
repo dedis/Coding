@@ -15,6 +15,12 @@ test_fmt:
 	out=`gofmt -l -s .`; echo "$$out"; [ -z "$$out" ]
 	go vet ./...
 
+.PHONY: test_imports
+test_imports:
+	@echo Checking correct formatting and import lines of files
+	out=`goimports -l -s .`; echo "$$out"; [ -z "$$out" ]
+	go vet ./...
+
 .PHONY: test_lint
 test_lint: $(GOPATH)/bin/golint
 	@echo Checking linting of files
