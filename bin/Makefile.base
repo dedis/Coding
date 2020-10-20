@@ -16,10 +16,11 @@ test_fmt:
 	go vet ./...
 
 .PHONY: test_imports
-test_imports:
+test_imports: $(GOPATH)/bin/goimports
 	@echo Checking correct formatting and import lines of files
 	out=`goimports -l .`; echo "$$out"; [ -z "$$out" ]
-	go vet ./...
+$(GOPATH)/bin/goimports:
+	GO111MODULE=off go get golang.org/x/tools/imports
 
 .PHONY: test_lint
 test_lint: $(GOPATH)/bin/golint
