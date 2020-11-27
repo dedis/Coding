@@ -18,7 +18,7 @@ test_fmt:
 .PHONY: test_imports
 test_imports: $(GOPATH)/bin/goimports
 	@echo Checking correct formatting and import lines of files
-	out=`goimports -l .`; echo "$$out"; [ -z "$$out" ]
+	out=`$< -l .`; echo "$$out"; [ -z "$$out" ]
 $(GOPATH)/bin/goimports:
 	GO111MODULE=off go get golang.org/x/tools/cmd/goimports
 
@@ -32,7 +32,7 @@ $(GOPATH)/bin/golint:
 
 .PHONY: test_goveralls
 test_goveralls: profile.cov $(GOPATH)/bin/goveralls
-	goveralls -coverprofile=$< -service=travis-ci
+	$(word 2,$^) -coverprofile=$< -service=travis-ci
 .INTERMEDIATE: profile.cov
 profile.cov:
 	$(CODING)/bin/coveralls.sh
